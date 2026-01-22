@@ -1,4 +1,4 @@
-package com.aldocursos.vollmed.medico;
+package com.aldocursos.vollmed.modules.medico;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

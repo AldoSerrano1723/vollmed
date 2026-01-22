@@ -1,6 +1,6 @@
-package com.aldocursos.vollmed.medico;
+package com.aldocursos.vollmed.modules.medico;
 
-import com.aldocursos.vollmed.direccion.DatosDireccion;
+import com.aldocursos.vollmed.modules.direccion.DatosDireccion;
 
 public record DatosRegistroMedico(
         String nombre,

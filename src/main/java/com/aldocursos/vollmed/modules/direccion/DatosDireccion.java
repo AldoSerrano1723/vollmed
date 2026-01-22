@@ -1,4 +1,4 @@
-package com.aldocursos.vollmed.direccion;
+package com.aldocursos.vollmed.modules.direccion;
 
 public record DatosDireccion(
         String calle,

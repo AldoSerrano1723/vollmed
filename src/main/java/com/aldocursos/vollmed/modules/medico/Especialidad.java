@@ -1,4 +1,4 @@
-package com.aldocursos.vollmed.medico;
+package com.aldocursos.vollmed.modules.medico;
 
 public enum Especialidad {
     ORTOPEDIA,
