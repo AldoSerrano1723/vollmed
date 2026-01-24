@@ -1,6 +1,7 @@
 package com.aldocursos.vollmed.modules.medico;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ public class MedicoController {
     @Autowired
     private MedicoRepository medicoRepository;
 
+    @Transactional
     @PostMapping()
     public void registrar(@RequestBody DatosRegistroMedico datosMedico) {
         Medico medico = new Medico(datosMedico);
