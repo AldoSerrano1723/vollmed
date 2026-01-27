@@ -27,4 +27,10 @@ public class MedicoController {
     public Page<DatosListaMedico> listar(@PageableDefault(size = 10, sort = {"nombre"}) Pageable paginacion) {
         return medicoRepository.findAll(paginacion).map(DatosListaMedico::new);
     }
+
+//    @PutMapping()
+//    @Transactional
+//    public void actualizarMedico(@RequestBody @Valid DatosRegistroMedico datosMedico) {
+//
+//    }
 }

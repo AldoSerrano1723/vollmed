@@ -1,6 +1,7 @@
 package com.aldocursos.vollmed.modules.medico;
 
 public record DatosListaMedico(
+        Long id,
         String nombre,
         String email,
         String documento,
@@ -8,6 +9,7 @@ public record DatosListaMedico(
 ) {
     public DatosListaMedico(Medico medico) {
         this(
+                medico.getId(),
                 medico.getNombre(),
                 medico.getEmail(),
                 medico.getDocumento(),
