@@ -2,6 +2,7 @@ package com.aldocursos.vollmed.modules.pacientes;
 
 import com.aldocursos.vollmed.modules.direccion.Direccion;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +34,18 @@ public class Paciente {
         this.email = datosPaciente.email();
         this.telefono = datosPaciente.telefono();
         this.documento = datosPaciente.documento();
-        this.direccion = datosPaciente.direccion();
+        this.direccion = new Direccion(datosPaciente.direccion());
+    }
+
+    public void actualizarInformaciones(@Valid DatosActualizacionPaciente datosActualizacionPaciente) {
+        if (datosActualizacionPaciente.nombre() != null ) {
+            this.nombre = datosActualizacionPaciente.nombre();
+        }
+        if (datosActualizacionPaciente.telefono() != null ) {
+            this.telefono = datosActualizacionPaciente.telefono();
+        }
+        if (datosActualizacionPaciente.direccion() != null ) {
+            this.direccion.actualizarDireccion(datosActualizacionPaciente.direccion());
+        }
     }
 }

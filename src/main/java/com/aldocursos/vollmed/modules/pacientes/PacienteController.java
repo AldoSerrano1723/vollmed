@@ -25,4 +25,11 @@ public class PacienteController {
     public Page<DatosListaPaciente> listar(@PageableDefault(size = 10, sort = {"nombre"}) Pageable paginacion) {
         return pacienteRepository.findAll(paginacion).map(DatosListaPaciente::new);
     }
+
+    @PutMapping
+    @Transactional
+    public void actualizarPaciente(@RequestBody @Valid DatosActualizacionPaciente datosActualizacionPaciente) {
+        var paciente = pacienteRepository.getReferenceById(datosActualizacionPaciente.id());
+        paciente.actualizarInformaciones(datosActualizacionPaciente);
+    }
 }
