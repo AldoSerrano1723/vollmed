@@ -24,6 +24,7 @@ public class Paciente {
     private String email;
     private String telefono;
     private String documento;
+    private Boolean activo;
 
     @Embedded
     private Direccion direccion;
@@ -34,9 +35,11 @@ public class Paciente {
         this.email = datosPaciente.email();
         this.telefono = datosPaciente.telefono();
         this.documento = datosPaciente.documento();
+        this.activo = true;
         this.direccion = new Direccion(datosPaciente.direccion());
     }
 
+    //METODOS
     public void actualizarInformaciones(@Valid DatosActualizacionPaciente datosActualizacionPaciente) {
         if (datosActualizacionPaciente.nombre() != null ) {
             this.nombre = datosActualizacionPaciente.nombre();
@@ -48,4 +51,9 @@ public class Paciente {
             this.direccion.actualizarDireccion(datosActualizacionPaciente.direccion());
         }
     }
+
+    public void eliminar() {
+        this.activo = false;
+    }
 }
+
