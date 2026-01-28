@@ -28,9 +28,10 @@ public class MedicoController {
         return medicoRepository.findAll(paginacion).map(DatosListaMedico::new);
     }
 
-//    @PutMapping()
-//    @Transactional
-//    public void actualizarMedico(@RequestBody @Valid DatosRegistroMedico datosMedico) {
-//
-//    }
+    @PutMapping()
+    @Transactional
+    public void actualizarMedico(@RequestBody @Valid DatosActualizacionMedico datosActualizacionMedico) {
+        var medico = medicoRepository.getReferenceById(datosActualizacionMedico.id());
+        medico.actualizarInformacions(datosActualizacionMedico);
+    }
 }

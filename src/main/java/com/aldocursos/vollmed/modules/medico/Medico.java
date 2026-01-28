@@ -1,7 +1,9 @@
 package com.aldocursos.vollmed.modules.medico;
 
 import com.aldocursos.vollmed.modules.direccion.DatosDireccion;
+import com.aldocursos.vollmed.modules.direccion.Direccion;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 @Getter
@@ -25,7 +27,7 @@ public class Medico {
     private Especialidad especialidad;
 
     @Embedded
-    private DatosDireccion direccion;
+    private Direccion direccion;
 
     //CONSTRUCTORES
     public Medico(DatosRegistroMedico datosMedico) {
@@ -34,6 +36,18 @@ public class Medico {
         this.telefono = datosMedico.telefono();
         this.documento = datosMedico.documento();
         this.especialidad = datosMedico.especialidad();
-        this.direccion = datosMedico.direccion();
+        this.direccion = new Direccion(datosMedico.direccion());
+    }
+
+    public void actualizarInformacions(@Valid DatosActualizacionMedico datosActualizacionMedico) {
+        if (datosActualizacionMedico.nombre() != null) {
+            this.nombre = datosActualizacionMedico.nombre();
+        }
+        if (datosActualizacionMedico.telefono() != null) {
+            this.telefono = datosActualizacionMedico.telefono();
+        }
+        if (datosActualizacionMedico.direccion() != null) {
+            this.direccion.actualizarDireccion(datosActualizacionMedico.direccion());
+        }
     }
 }
