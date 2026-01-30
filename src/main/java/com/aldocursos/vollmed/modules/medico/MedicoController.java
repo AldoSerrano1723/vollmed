@@ -17,9 +17,10 @@ public class MedicoController {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    @Transactional
+
     @PostMapping()
-    public ResponseEntity registrar(@RequestBody @Valid DatosRegistroMedico datosMedico, UriComponentsBuilder  uriComponentsBuilder) {
+    @Transactional
+    public ResponseEntity<DatosDetalleMedico> registrar(@RequestBody @Valid DatosRegistroMedico datosMedico, UriComponentsBuilder  uriComponentsBuilder) {
         var medico = new Medico(datosMedico);
         medicoRepository.save(medico);
         var uri = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
@@ -41,11 +42,18 @@ public class MedicoController {
         return ResponseEntity.ok(new DatosDetalleMedico(medico));
     }
 
-    @Transactional
+
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity eliminarMedico(@PathVariable Long id) {
         var medico = medicoRepository.getReferenceById(id);
         medico.eliminar();
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosDetalleMedico> detallesMedico(@PathVariable Long id) {
+        var medico = medicoRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DatosDetalleMedico(medico));
     }
 }
