@@ -1,6 +1,5 @@
 package com.aldocursos.vollmed.modules.medico;
 
-import com.aldocursos.vollmed.modules.direccion.DatosDireccion;
 import com.aldocursos.vollmed.modules.direccion.Direccion;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
