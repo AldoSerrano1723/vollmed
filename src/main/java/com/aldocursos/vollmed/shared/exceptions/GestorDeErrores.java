@@ -1,4 +1,4 @@
-package com.aldocursos.vollmed.shared;
+package com.aldocursos.vollmed.shared.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
