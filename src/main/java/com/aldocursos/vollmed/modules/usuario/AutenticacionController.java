@@ -1,11 +1,11 @@
 package com.aldocursos.vollmed.modules.usuario;
 
+import com.aldocursos.vollmed.shared.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +19,15 @@ public class AutenticacionController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     @Transactional
     public ResponseEntity iniciarSesion(@RequestBody @Valid DatosAutenticacion datosAutenticacion) {
         var token = new UsernamePasswordAuthenticationToken(datosAutenticacion.login(), datosAutenticacion.password());
-        var authentication = manager.authenticate(token);
+        var autenticacion = manager.authenticate(token);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(tokenService.generarToken((Usuario) autenticacion.getPrincipal()));
     }
 }
