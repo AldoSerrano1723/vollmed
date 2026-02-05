@@ -1,5 +1,6 @@
 package com.aldocursos.vollmed.modules.usuario;
 
+import com.aldocursos.vollmed.shared.security.DatosTokenJWT;
 import com.aldocursos.vollmed.shared.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,11 @@ public class AutenticacionController {
     @PostMapping
     @Transactional
     public ResponseEntity iniciarSesion(@RequestBody @Valid DatosAutenticacion datosAutenticacion) {
-        var token = new UsernamePasswordAuthenticationToken(datosAutenticacion.login(), datosAutenticacion.password());
-        var autenticacion = manager.authenticate(token);
+        var authenticationToken = new UsernamePasswordAuthenticationToken(datosAutenticacion.login(), datosAutenticacion.password());
+        var autenticacion = manager.authenticate(authenticationToken);
 
-        return ResponseEntity.ok(tokenService.generarToken((Usuario) autenticacion.getPrincipal()));
+        var tokenJWT = tokenService.generarToken((Usuario) autenticacion.getPrincipal());
+
+        return ResponseEntity.ok(new DatosTokenJWT(tokenJWT));
     }
 }
