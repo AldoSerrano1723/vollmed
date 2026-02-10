@@ -18,6 +18,7 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    // Genera un token JWT para un usuario dado
     public String generarToken(Usuario usuario) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
@@ -31,10 +32,12 @@ public class TokenService {
         }
     }
 
+    // Calcula la fecha de expiración del token (1 semana a partir de ahora)
     private Instant fechaExpiracion() {
         return LocalDateTime.now().plusWeeks(1).toInstant(ZoneOffset.UTC);
     }
 
+    // Verifica la validez del token JWT y extrae el sujeto (login del usuario)
     public String getSubject(String tokenJWT) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);

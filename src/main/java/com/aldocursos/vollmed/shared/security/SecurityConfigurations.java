@@ -15,18 +15,25 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfigurations {
 
+    // Configura las reglas de seguridad HTTP, deshabilitando CSRF y estableciendo la política de sesión como stateless
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(req -> { // Configura las reglas de autorización para las rutas
+                    req.requestMatchers("/login").permitAll(); // Permite el acceso a la ruta de login sin autenticación
+                    req.anyRequest().authenticated(); // Requiere autenticación para cualquier otra ruta
+                })
                 .build();
     }
 
+    // Proporciona un bean de AuthenticationManager para manejar la autenticación de usuarios
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+    // Proporciona un bean de PasswordEncoder para cifrar las contraseñas de los usuarios utilizando BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
