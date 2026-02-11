@@ -33,7 +33,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         // Si se encuentra un token JWT, valida y extrae la información del usuario
         if (tokenJWT != null){
             var subject = tokenService.getSubject(tokenJWT);
-            System.out.println(subject);
             var usuario = repository.findByLogin(subject);
             // Crea un objeto de autenticación con los detalles del usuario
             var authenrtication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());

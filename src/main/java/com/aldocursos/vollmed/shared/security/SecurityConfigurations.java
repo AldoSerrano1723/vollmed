@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                     req.requestMatchers("/login").permitAll(); // Permite el acceso a la ruta de login sin autenticación
                     req.anyRequest().authenticated(); // Requiere autenticación para cualquier otra ruta
                 })
+                // Agrega el filtro de seguridad personalizado antes del filtro de autenticación de Spring Security
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
