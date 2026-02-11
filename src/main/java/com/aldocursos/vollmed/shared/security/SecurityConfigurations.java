@@ -1,5 +1,6 @@
 package com.aldocursos.vollmed.shared.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,10 +11,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+
+    @Autowired
+    private SecurityFilter securityFilter;
 
     // Configura las reglas de seguridad HTTP, deshabilitando CSRF y estableciendo la política de sesión como stateless
     @Bean
@@ -24,6 +29,7 @@ public class SecurityConfigurations {
                     req.requestMatchers("/login").permitAll(); // Permite el acceso a la ruta de login sin autenticación
                     req.anyRequest().authenticated(); // Requiere autenticación para cualquier otra ruta
                 })
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
