@@ -4,6 +4,7 @@ import com.aldocursos.vollmed.modules.ValidacionException;
 import com.aldocursos.vollmed.modules.medico.Medico;
 import com.aldocursos.vollmed.modules.medico.MedicoRepository;
 import com.aldocursos.vollmed.modules.pacientes.PacienteRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ConsultaService {
         var medico = elegeriMedico(datos);
         var paciente = pacienteRepository.findById(datos.idPaciente()).get();
 
-        var consulta = new Consulta(null, medico, paciente, datos.fecha());
+        var consulta = new Consulta(null, medico, paciente, datos.fecha(), null);
         consultaRepository.save(consulta);
     }
 
@@ -44,5 +45,13 @@ public class ConsultaService {
         }
 
         return medicoRepository.eleqirMedicoAleatorioPorEspecialidad(datos.especialidad(), datos.fecha());
+    }
+
+    public void cancelar(DatosCancelarConsulta datosCancelarConsulta) {
+        if(!consultaRepository.existsById(datosCancelarConsulta.idConsulta())) {
+            throw new ValidacionException("ID de consulta no existe");
+        }
+        var consulta = consultaRepository.getReferenceById(datosCancelarConsulta.idConsulta());
+        consulta.cancelar(datosCancelarConsulta.motivo());
     }
 }
