@@ -1,5 +1,6 @@
 package com.aldocursos.vollmed.modules.consulta;
 
+import com.aldocursos.vollmed.modules.medico.Especialidad;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,6 +12,7 @@ public record DatosReservaConsulta(
         Long idPaciente,
         @NotNull
         @Future
-        LocalDateTime fecha
+        LocalDateTime fecha,
+        Especialidad especialidad
 ) {
 }

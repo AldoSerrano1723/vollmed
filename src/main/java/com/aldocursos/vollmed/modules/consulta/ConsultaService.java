@@ -36,6 +36,13 @@ public class ConsultaService {
     }
 
     private Medico elegeriMedico(DatosReservaConsulta datos) {
-        return null;
+        if(datos.idMedico() != null){
+            return medicoRepository.getReferenceById(datos.idMedico());
+        }
+        if(datos.especialidad() == null) {
+            throw new ValidacionException("Especialidad es requerida cuando no se especifica un médico");
+        }
+
+        return medicoRepository.eleqirMedicoAleatorioPorEspecialidad(datos.especialidad(), datos.fecha());
     }
 }
