@@ -2,11 +2,13 @@ package com.aldocursos.vollmed.modules.consulta.validaciones;
 
 import com.aldocursos.vollmed.modules.ValidacionException;
 import com.aldocursos.vollmed.modules.consulta.DatosReservaConsulta;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class ValidacionConsultaConAnticipacion {
+@Component
+public class ValidacionConsultaConAnticipacion implements ValidadorDeConsultas{
     public void validar(DatosReservaConsulta datos){
         var fechaDeConsulta = datos.fecha();
         var ahora =  LocalDateTime.now();

@@ -2,10 +2,12 @@ package com.aldocursos.vollmed.modules.consulta.validaciones;
 
 import com.aldocursos.vollmed.modules.ValidacionException;
 import com.aldocursos.vollmed.modules.consulta.DatosReservaConsulta;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 
-public class ValidacionFueraHorarioConsultas {
+@Component
+public class ValidacionFueraHorarioConsultas implements ValidadorDeConsultas{
     public void validar(DatosReservaConsulta datos){
         var fechaConsulta = datos.fecha();
         var domingo = fechaConsulta.getDayOfWeek().equals(DayOfWeek.SUNDAY);

@@ -2,9 +2,13 @@ package com.aldocursos.vollmed.modules.consulta.validaciones;
 
 import com.aldocursos.vollmed.modules.consulta.ConsultaRepository;
 import com.aldocursos.vollmed.modules.consulta.DatosReservaConsulta;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class ValidadorMedicoConOtraConsultaEnElMismoHorario {
+@Component
+public class ValidadorMedicoConOtraConsultaEnElMismoHorario implements ValidadorDeConsultas{
 
+    @Autowired
     private ConsultaRepository repository;
 
     public void validar(DatosReservaConsulta datos){
