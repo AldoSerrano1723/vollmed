@@ -1,6 +1,5 @@
-package com.aldocursos.vollmed.modules.consulta.validaciones;
+package com.aldocursos.vollmed.modules.consulta.validaciones.reserva;
 
-import com.aldocursos.vollmed.modules.consulta.Consulta;
 import com.aldocursos.vollmed.modules.consulta.DatosReservaConsulta;
 
 

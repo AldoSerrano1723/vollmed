@@ -1,7 +1,8 @@
 package com.aldocursos.vollmed.modules.consulta;
 
 import com.aldocursos.vollmed.modules.ValidacionException;
-import com.aldocursos.vollmed.modules.consulta.validaciones.ValidadorDeConsultas;
+import com.aldocursos.vollmed.modules.consulta.validaciones.cancelamiento.ValidadorCancelamientoDeConsultas;
+import com.aldocursos.vollmed.modules.consulta.validaciones.reserva.ValidadorDeConsultas;
 import com.aldocursos.vollmed.modules.medico.Medico;
 import com.aldocursos.vollmed.modules.medico.MedicoRepository;
 import com.aldocursos.vollmed.modules.pacientes.PacienteRepository;
@@ -24,6 +25,9 @@ public class ConsultaService {
 
     @Autowired
     private List<ValidadorDeConsultas> validadores;
+
+    @Autowired
+    private List<ValidadorCancelamientoDeConsultas> validadoresCancelamiento;
 
     public DatosDetalleConsulta reservar(DatosReservaConsulta datos) {
         // Lógica para reservar una consulta
@@ -59,11 +63,14 @@ public class ConsultaService {
         return medicoRepository.eleqirMedicoAleatorioPorEspecialidad(datos.especialidad(), datos.fecha());
     }
 
-    public void cancelar(DatosCancelarConsulta datosCancelarConsulta) {
-        if(!consultaRepository.existsById(datosCancelarConsulta.idConsulta())) {
+    public void cancelar(DatosCancelarConsulta datos) {
+        if(!consultaRepository.existsById(datos.idConsulta())) {
             throw new ValidacionException("ID de consulta no existe");
         }
-        var consulta = consultaRepository.getReferenceById(datosCancelarConsulta.idConsulta());
-        consulta.cancelar(datosCancelarConsulta.motivo());
+
+        validadoresCancelamiento.forEach(v -> v.validar(datos));
+
+        var consulta = consultaRepository.getReferenceById(datos.idConsulta());
+        consulta.cancelar(datos.motivo());
     }
 }

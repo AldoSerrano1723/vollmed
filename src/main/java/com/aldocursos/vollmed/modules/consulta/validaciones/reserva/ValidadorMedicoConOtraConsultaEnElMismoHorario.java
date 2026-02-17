@@ -1,4 +1,4 @@
-package com.aldocursos.vollmed.modules.consulta.validaciones;
+package com.aldocursos.vollmed.modules.consulta.validaciones.reserva;
 
 import com.aldocursos.vollmed.modules.ValidacionException;
 import com.aldocursos.vollmed.modules.consulta.ConsultaRepository;
@@ -13,7 +13,7 @@ public class ValidadorMedicoConOtraConsultaEnElMismoHorario implements Validador
     private ConsultaRepository repository;
 
     public void validar(DatosReservaConsulta datos){
-        var medicoTieneOtraConsultaEnElMismoHorario = repository.existsByMedicoIdAndFecha(datos.idMedico(), datos.fecha());
+        var medicoTieneOtraConsultaEnElMismoHorario = repository.existsByMedicoIdAndFechaAndMotivoIsNull(datos.idMedico(), datos.fecha());
         if (medicoTieneOtraConsultaEnElMismoHorario) {
             throw new ValidacionException("El médico ya tiene otra consulta agendada para el mismo horario");
         }
