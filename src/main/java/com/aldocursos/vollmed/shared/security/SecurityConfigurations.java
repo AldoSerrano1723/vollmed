@@ -25,10 +25,12 @@ public class SecurityConfigurations {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(req -> { // Configura las reglas de autorización para las rutas
-                    req.requestMatchers("/login").permitAll(); // Permite el acceso a la ruta de login sin autenticación
-                    req.anyRequest().authenticated(); // Requiere autenticación para cualquier otra ruta
-                })
+                .authorizeHttpRequests((req) ->  // Configura las reglas de autorización para las rutas
+                    req.requestMatchers("/login").permitAll()// Permite el acceso a la ruta de login sin autenticación// Permite el acceso a las rutas de documentación de la API sin autenticación
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                    .anyRequest()
+                    .authenticated() // Requiere autenticación para cualquier otra ruta
+                )
                 // Agrega el filtro de seguridad personalizado antes del filtro de autenticación de Spring Security
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
