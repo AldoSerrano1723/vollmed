@@ -1,5 +1,6 @@
 package com.aldocursos.vollmed.modules.consulta.validaciones;
 
+import com.aldocursos.vollmed.modules.ValidacionException;
 import com.aldocursos.vollmed.modules.consulta.ConsultaRepository;
 import com.aldocursos.vollmed.modules.consulta.DatosReservaConsulta;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ValidadorPacienteSinOtraConsultaEnElMismoDia implements ValidadorDe
         var ultimoHorario = datos.fecha().withHour(18);
         var pacienteTieneOtraConsultaEnElMismoDia = repository.existsByPacienteIdAndFechaBetween(datos.idPaciente(), primerHorario, ultimoHorario);
         if(pacienteTieneOtraConsultaEnElMismoDia){
-            throw new RuntimeException("El paciente ya tiene otra consulta agendada para el mismo día");
+            throw new ValidacionException("El paciente ya tiene otra consulta agendada para el mismo día");
         }
     }
 }

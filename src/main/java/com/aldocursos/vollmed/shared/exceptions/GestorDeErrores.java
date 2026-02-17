@@ -1,5 +1,6 @@
 package com.aldocursos.vollmed.shared.exceptions;
 
+import com.aldocursos.vollmed.modules.ValidacionException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -20,6 +21,13 @@ public class GestorDeErrores {
     public ResponseEntity TratarError400(MethodArgumentNotValidException e){
         var errores = e.getFieldErrors();
         return ResponseEntity.badRequest().body(errores.stream().map(DatosErrorValidacion::new).toList());
+    }
+
+    @ExceptionHandler(ValidacionException.class)
+    public ResponseEntity TratarErrorDeValidacion(ValidacionException e){
+        var error = e.getMessage();
+        System.out.println(error);
+       return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     public record DatosErrorValidacion(

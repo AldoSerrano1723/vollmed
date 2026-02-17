@@ -1,5 +1,6 @@
 package com.aldocursos.vollmed.modules.consulta.validaciones;
 
+import com.aldocursos.vollmed.modules.ValidacionException;
 import com.aldocursos.vollmed.modules.consulta.DatosReservaConsulta;
 import com.aldocursos.vollmed.modules.pacientes.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class ValidacionPacienteActivo implements ValidadorDeConsultas{
     public void validar(DatosReservaConsulta datos){
         var pacienteEstaActivo = repository.findActivoById(datos.idPaciente());
         if(!pacienteEstaActivo){
-            throw new RuntimeException("El paciente no se encuentra activo");
+            throw new ValidacionException("El paciente no se encuentra activo");
         }
     }
 }
