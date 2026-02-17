@@ -5,7 +5,6 @@ import com.aldocursos.vollmed.modules.consulta.validaciones.ValidadorDeConsultas
 import com.aldocursos.vollmed.modules.medico.Medico;
 import com.aldocursos.vollmed.modules.medico.MedicoRepository;
 import com.aldocursos.vollmed.modules.pacientes.PacienteRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class ConsultaService {
     @Autowired
     private List<ValidadorDeConsultas> validadores;
 
-    public void reservar(DatosReservaConsulta datos) {
+    public DatosDetalleConsulta reservar(DatosReservaConsulta datos) {
         // Lógica para reservar una consulta
         if(!pacienteRepository.existsById(datos.idPaciente())) {
             throw new ValidacionException("ID de paciente no existe");
@@ -39,10 +38,14 @@ public class ConsultaService {
         validadores.forEach(v -> v.validar(datos));
 
         var medico = elegeriMedico(datos);
-        var paciente = pacienteRepository.findById(datos.idPaciente()).get();
+        if(medico == null) {
+            throw new ValidacionException("Medico no disponible en ese horario");
+        }
 
+        var paciente = pacienteRepository.findById(datos.idPaciente()).get();
         var consulta = new Consulta(null, medico, paciente, datos.fecha(), null);
         consultaRepository.save(consulta);
+        return new DatosDetalleConsulta(consulta);
     }
 
     private Medico elegeriMedico(DatosReservaConsulta datos) {
